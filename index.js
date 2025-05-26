@@ -5,6 +5,15 @@ const jwt = require("jsonwebtoken");
 const User = require("./Models/userModel");
 const isAgent = require("./Middleware/isAgent ");
 const Property = require("./Models/propertyModel");
+const SavedProperty = require("./Models/savedProperty");
+const authorization = require("./Middleware/authorization");
+const {
+  handleSaveProperty,
+  handleUnsaveProperty,
+  handleGetAllSavedProperty,
+  handleViewAllProperty,
+  handleViewSpecificProperty,
+} = require("./Controllers");
 const dotenv = require("dotenv").config();
 
 const app = express();
@@ -106,7 +115,8 @@ app.post("/login", async (req, res) => {
 //POST PROPERTIES
 app.post("/property-listing", isAgent, async (req, res) => {
   try {
-    const { title, description, price, location, propertyType } = req.body;
+    const { title, description, price, location, propertyType, listedBy } =
+      req.body;
 
     const property = new Property({
       title,
@@ -125,3 +135,22 @@ app.post("/property-listing", isAgent, async (req, res) => {
     res.status(400).json({ message: error });
   }
 });
+
+//MILESTONE 2
+//USER CAN VIEW ALL LISTING OR A SPECIFIC ONE
+
+//user viewing all properties
+app.get("/view-all-properties", authorization, handleViewAllProperty);
+
+//user viewing a specific property by ID
+app.get("/view-property:id", authorization, handleViewSpecificProperty);
+
+//USERS CAN SAVE AND UNSAVE PROPERTY
+//User Saving Property
+app.post("/save-property:propertyId", authorization, handleSaveProperty);
+
+//User Unsaving Property
+app.delete("/unsave-property:propertyId", authorization, handleUnsaveProperty);
+
+//GETTING ALL SAVED PROPERTY FOR THE LOGIN USER
+app.get("/view-all-saved-property", authorization, handleGetAllSavedProperty);
