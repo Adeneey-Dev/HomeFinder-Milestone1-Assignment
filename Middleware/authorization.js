@@ -27,12 +27,13 @@ const authorization = async (req, res, next) => {
       message: "User account does not exist",
     });
   }
-
+  /*
   if (user?.role !== "admin") {
     return res.status(401).json({
       message: "Invalid Authorization",
     });
   }
+*/
   req.user = user;
 
   next();
