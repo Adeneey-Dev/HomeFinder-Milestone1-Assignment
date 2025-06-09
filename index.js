@@ -25,6 +25,12 @@ mongoose.connect(process.env.MONGODB_URL).then(() => {
   });
 });
 
-//app.use(routes);
+//THIS IS USE FOR TESTING OUR DEPLOYMENT URL IN THE BROWSER
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Welcome to Real Estate Listing Platform",
+  });
+});
 
+//app.use(routes);
 app.use("/api", routes);
