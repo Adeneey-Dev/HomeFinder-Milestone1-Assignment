@@ -11,6 +11,11 @@ const {
   handleSignUp,
   handleLogin,
   handlePropertyListing,
+  handleForgotPassword,
+  handleResetPassword,
+  handleSendOtp,
+  handleVerifyOtp,
+  handleGetAccessToken,
 } = require("../Controllers");
 
 const routes = require(".");
@@ -20,6 +25,16 @@ const router = express.Router();
 router.post("/sign-up", handleSignUp);
 
 router.post("/login", handleLogin);
+
+router.get("/refreshToken", handleGetAccessToken);
+
+router.post("/forgot-password", handleForgotPassword);
+
+router.patch("/reset-password", handleResetPassword);
+
+router.post("/send-otp", handleSendOtp);
+
+router.post("/verify-otp", handleVerifyOtp);
 
 //ADD NEW PROPERTY LISTING (AGENT ONLY)
 //POST PROPERTIES
@@ -51,7 +66,7 @@ router.get(
   handleGetAllSavedProperty
 );
 
-//GETTING PROPERTY FILTERS BY LOCATION, MIN $ MAX PRICE
+//GETTING PROPERTY FILTERS BY LOCATION, MINIMUM $ MAXIMUM PRICE
 router.get("/view-filter-property", authorization, handleFilterProperty);
 
 module.exports = router;

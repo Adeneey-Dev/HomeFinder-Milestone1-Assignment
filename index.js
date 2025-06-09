@@ -1,4 +1,5 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -12,6 +13,7 @@ const dotenv = require("dotenv").config();
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 
 const PORT = process.env.PORT || 8000;
@@ -23,4 +25,6 @@ mongoose.connect(process.env.MONGODB_URL).then(() => {
   });
 });
 
-app.use(routes);
+//app.use(routes);
+
+app.use("/api", routes);
